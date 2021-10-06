@@ -1,5 +1,14 @@
 <template>
     <div>
-        <h2>Coaches List</h2>
+        <section>
+            Filter
+        </section>
+        <section>
+            List of coaches
+        </section>
     </div>
 </template>
+
+<script></script>
+
+<style scoped></style>
