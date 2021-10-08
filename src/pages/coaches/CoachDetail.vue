@@ -44,7 +44,6 @@ export default {
             selectedCoach: null
         };
     },
-
     computed: {
         areas() {
             return this.selectedCoach.areas;
@@ -61,7 +60,6 @@ export default {
             );
         },
         contactLink() {
-            console.log('this', this.$route);
             return this.$route.path + '/contact';
         }
     },

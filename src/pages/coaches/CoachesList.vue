@@ -1,7 +1,7 @@
 <template>
     <div>
         <section>
-            Filter
+            <coach-filter @update-filters="setFilters"></coach-filter>
         </section>
         <section>
             <base-card>
@@ -13,7 +13,7 @@
                 </div>
                 <ul v-if="hasCoaches">
                     <coach-item
-                        v-for="coach in coaches"
+                        v-for="coach in filteredCoaches"
                         :key="coach.id"
                         :first-name="coach.firstName"
                         :last-name="coach.lastName"
@@ -31,23 +31,41 @@
 <script>
 import BaseCard from '../../components/base/BaseCard.vue';
 import CoachItem from '../../components/coaches/CoachItem.vue';
+import CoachFilter from '../../components/coaches/CoachFilter.vue';
 
 export default {
+    data() {
+        return {
+            filters: {
+                frontend: true,
+                backend: true,
+                career: true
+            }
+        };
+    },
     components: {
         CoachItem,
-        BaseCard
+        BaseCard,
+        CoachFilter
     },
     computed: {
-        coaches() {
-            return this.$store.getters.coaches;
+        filteredCoaches() {
+            return this.$store.getters.coaches.filter(coach => {
+                if (this.filters.frontend && coach.areas.includes('frontend'))
+                    return true;
+                if (this.filters.backend && coach.areas.includes('backend'))
+                    return true;
+                if (this.filters.career && coach.areas.includes('career'))
+                    return true;
+            });
         },
         hasCoaches() {
             return this.$store.getters.hasCoaches;
         }
     },
     methods: {
-        idemo() {
-            console.log('uraaaaa');
+        setFilters(updatedFilters) {
+            this.filters = updatedFilters;
         }
     }
 };
