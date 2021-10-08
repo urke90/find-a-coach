@@ -1,7 +1,7 @@
 <template>
     <li>
         <h3>{{ fullName }}</h3>
-        <h4>${{ rate }}</h4>
+        <h4>${{ rate }}/hour</h4>
         <div>
             <base-badge
                 v-for="area in areas"
@@ -11,8 +11,12 @@
             ></base-badge>
         </div>
         <div class="actions">
-            <base-button :link-to="coachContactLink">Contact</base-button>
-            <base-button :link-to="coachDetailLink">View Details</base-button>
+            <base-button is-link :link-to="coachContactLink"
+                >Contact</base-button
+            >
+            <base-button is-link :link-to="coachDetailLink"
+                >View Details</base-button
+            >
         </div>
     </li>
 </template>
