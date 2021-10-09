@@ -68,10 +68,11 @@ export default {
     methods: {
         submitFormHandler() {
             const formData = {
+                id: 'c3',
                 firstName: this.firstName,
                 lastName: this.lastName,
                 description: this.description,
-                rate: this.rate,
+                hourlyRate: this.rate,
                 areas: this.areas
             };
 

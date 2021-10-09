@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import coaches from './coaches/coaches';
+import coaches from './modules/coaches/coaches';
 
 Vue.use(Vuex);
 
