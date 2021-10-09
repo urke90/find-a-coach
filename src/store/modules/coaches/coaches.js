@@ -1,3 +1,5 @@
+import { ADD_COACH } from '../../constants';
+
 const state = {
     coaches: [
         {
@@ -30,9 +32,24 @@ const getters = {
     }
 };
 
+const mutations = {
+    [ADD_COACH](state, payload) {
+        state.coaches.push(payload);
+    }
+};
+
+const actions = {
+    addCoach(context, coach) {
+        console.log('addCoach action called');
+        console.log('context', context);
+        console.log('coach', coach);
+        context.commit(ADD_COACH, coach);
+    }
+};
+
 export default {
     state,
-    //mutations,
-    //actions,
+    mutations,
+    actions,
     getters
 };
