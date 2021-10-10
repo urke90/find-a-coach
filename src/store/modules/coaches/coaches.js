@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../../api/axios';
 import { ADD_COACH, SET_COACHES } from '../../constants';
 
 const state = {
@@ -26,14 +26,12 @@ const mutations = {
 const actions = {
     async addCoach({ commit }, coach) {
         try {
-            const url =
-                'https://find-a-coach-vue-26405-default-rtdb.firebaseio.com/coaches.json';
-
-            const response = await axios.post(url, coach);
+            const { data } = await axios.post('coaches.json', coach);
             const newCoach = {
                 ...coach,
-                id: response.data.name
+                id: data.name
             };
+
             commit(ADD_COACH, newCoach);
         } catch (err) {
             console.error('error adding new coach', err);
@@ -41,16 +39,13 @@ const actions = {
     },
     async getCoaches({ commit }) {
         try {
-            const url =
-                'https://find-a-coach-vue-26405-default-rtdb.firebaseio.com/coaches.json';
-
             const coaches = [];
-            const response = await axios.get(url);
+            const { data } = await axios.get('coaches.json');
 
-            Object.keys(response.data).forEach(key => {
+            Object.keys(data).forEach(key => {
                 const newCoach = {
                     id: key,
-                    ...response.data[key]
+                    ...data[key]
                 };
 
                 coaches.push(newCoach);
@@ -69,15 +64,3 @@ export default {
     actions,
     getters
 };
-/*
-
-{
-            id: 'c1',
-            firstName: 'Maximilian',
-            lastName: 'Schwarzmüller',
-            areas: ['frontend', 'backend', 'career'],
-            description:
-                "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well!",
-            hourlyRate: 30
-        }
-*/
