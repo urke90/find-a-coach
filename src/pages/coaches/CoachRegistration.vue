@@ -17,7 +17,6 @@ export default {
     methods: {
         ...mapActions(['addCoach']),
         registerCoach(data) {
-            console.log('data iz register coach forme', data);
             this.addCoach(data);
             this.$router.push('/coaches');
         }
