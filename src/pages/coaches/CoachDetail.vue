@@ -8,7 +8,7 @@
         </section>
         <section>
             <base-card>
-                <header>
+                <header v-if="!isOnContactPage">
                     <h2>Interested? Reach out now!</h2>
                     <base-button is-link :link-to="contactLink"
                         >Contact</base-button
@@ -61,6 +61,9 @@ export default {
         },
         contactLink() {
             return this.$route.path + '/contact';
+        },
+        isOnContactPage() {
+            return this.$route.path.includes('contact');
         }
     },
     created() {
