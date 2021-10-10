@@ -22,7 +22,9 @@
                         :rate="coach.hourlyRate"
                     ></coach-item>
                 </ul>
-                <h3 v-else>No Coaches Found</h3>
+                <h3 v-else>
+                    No Coaches Found. Please register as coach to continue!
+                </h3>
             </base-card>
         </section>
     </div>
@@ -67,6 +69,9 @@ export default {
         setFilters(updatedFilters) {
             this.filters = updatedFilters;
         }
+    },
+    async created() {
+        this.$store.dispatch('getCoaches');
     }
 };
 </script>
