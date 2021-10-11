@@ -6,7 +6,9 @@
         <section>
             <base-card>
                 <div class="controls">
-                    <button @click="loadCoaches">Refresh</button>
+                    <base-button @click.native="loadCoaches" mode="outline"
+                        >Refresh</base-button
+                    >
                     <base-button :is-link="true" link-to="/register"
                         >Register as Coach</base-button
                     >
