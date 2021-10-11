@@ -37,7 +37,7 @@ const actions = {
             console.error('error adding new coach', err);
         }
     },
-    async getCoaches({ commit }) {
+    async setCoaches({ commit }) {
         try {
             const coaches = [];
             const { data } = await axios.get('coaches.json');
