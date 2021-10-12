@@ -1,4 +1,5 @@
-import { ADD_NEW_REQUEST } from '../../constants';
+import axios from '../../../api/axios';
+import { ADD_NEW_REQUEST, SET_REQUESTS } from '../../constants';
 
 const state = {
     requests: []
@@ -16,19 +17,47 @@ const getters = {
 const mutations = {
     [ADD_NEW_REQUEST](state, payload) {
         state.requests.push(payload);
+    },
+    [SET_REQUESTS](state, payload) {
+        state.requests = payload;
     }
 };
 
 const actions = {
-    addRequest({ commit }, payload) {
+    async addRequest({ commit }, { coachId, email, message }) {
         const newRequest = {
-            id: new Date().toISOString(),
-            coachId: payload.coachId,
-            email: payload.email,
-            message: payload.message
+            coachId: coachId,
+            email: email,
+            message: message
         };
 
-        commit(ADD_NEW_REQUEST, newRequest);
+        try {
+            const { data } = await axios.post('/requests.json', newRequest);
+            newRequest.id = data.name;
+            commit(ADD_NEW_REQUEST, newRequest);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    async setRequests({ commit }) {
+        try {
+            const requests = [];
+            const { data } = await axios.get('/requests.json');
+
+            for (const key in data) {
+                const request = {
+                    id: key,
+                    coachId: data[key].coachId,
+                    email: data[key].email,
+                    message: data[key].message
+                };
+                requests.push(request);
+            }
+
+            commit(SET_REQUESTS, requests);
+        } catch (err) {
+            console.error('error setting requests', err);
+        }
     }
 };
 

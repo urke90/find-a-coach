@@ -4,7 +4,8 @@
             <header>
                 <h2>Received Requests</h2>
             </header>
-            <ul v-if="hasRequests">
+            <base-spinner v-if="isLoading"></base-spinner>
+            <ul v-else-if="hasRequests && !isLoading">
                 <request-item
                     v-for="req in requests"
                     :key="req.id"
@@ -24,12 +25,26 @@ export default {
     components: {
         RequestItem
     },
+    data() {
+        return {
+            isLoading: false
+        };
+    },
     computed: {
         requests() {
             return this.$store.getters.allRequests;
         },
         hasRequests() {
             return this.$store.getters.hasRequests;
+        }
+    },
+    async created() {
+        try {
+            this.isLoading = true;
+            await this.$store.dispatch('setRequests');
+            this.isLoading = false;
+        } catch (err) {
+            console.error(err);
         }
     }
 };
