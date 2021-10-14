@@ -4,3 +4,4 @@ export const SET_COACHES = 'SET_COACHES';
 export const SET_REQUESTS = 'SET_REQUESTS';
 export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 export const SET_IS_LOADING = 'SET_IS_LOADING';
+export const CLOSE_ERROR_MODAL = 'CLOSE_ERROR_MODAL';

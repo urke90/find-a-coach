@@ -1,4 +1,8 @@
-import { SET_IS_LOADING, SET_ERROR_MESSAGE } from '../../constants';
+import {
+    SET_IS_LOADING,
+    SET_ERROR_MESSAGE,
+    CLOSE_ERROR_MODAL
+} from '../../constants';
 
 const state = {
     isLoading: false,
@@ -11,6 +15,9 @@ const getters = {
     },
     getErrorMessage(state) {
         return state.errorMessage;
+    },
+    hasErrorMessage(state) {
+        return !!state.errorMessage;
     }
 };
 
@@ -21,6 +28,9 @@ const mutations = {
     [SET_ERROR_MESSAGE](state, message) {
         console.log('message iz mutatiton', message);
         state.errorMessage = message;
+    },
+    [CLOSE_ERROR_MODAL](state) {
+        state.errorMessage = null;
     }
 };
 
@@ -30,6 +40,9 @@ const actions = {
     },
     setErrorMessage({ commit }, message) {
         commit(SET_ERROR_MESSAGE, message);
+    },
+    closeErrorModal({ commit }) {
+        commit(CLOSE_ERROR_MODAL);
     }
 };
 
