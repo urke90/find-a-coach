@@ -41,12 +41,10 @@ const actions = {
             commit(ADD_COACH, newCoach);
             commit(SET_IS_LOADING, false);
         } catch (err) {
-            const errorMessage = 'Error fetching coaches';
+            const errorMessage = 'Error creating new coache account';
             commit(SET_ERROR_MESSAGE, errorMessage);
             commit(SET_IS_LOADING, false);
-            throw new Error(
-                `Error fetching coaches, status code: ${err.response.status}`
-            );
+            throw new Error(`Error fetching coaches`);
         }
     },
     async setCoaches({ commit }) {
@@ -70,9 +68,7 @@ const actions = {
             const errorMessage = 'Error fetching coaches';
             commit(SET_ERROR_MESSAGE, errorMessage);
             commit(SET_IS_LOADING, false);
-            throw new Error(
-                `Error fetching coaches, status code: ${err.response.status}`
-            );
+            throw new Error(`Error fetching coaches`);
         }
     }
 };

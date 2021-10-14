@@ -4,15 +4,17 @@
         <dialog open v-if="show">
             <header>
                 <slot name="header">
-                    <h2>{{ title }}</h2>
+                    <h2>ERROR</h2>
                 </slot>
             </header>
             <section>
-                <slot></slot>
+                {{ errorMessage }}
             </section>
             <menu v-if="!fixed">
                 <slot name="actions">
-                    <base-button @click="closeModalHandler">Close</base-button>
+                    <base-button @click.native="closeModalHandler"
+                        >Close</base-button
+                    >
                 </slot>
             </menu>
         </dialog>
@@ -26,10 +28,6 @@ export default {
             type: Boolean,
             required: true
         },
-        title: {
-            type: String,
-            required: false
-        },
         fixed: {
             type: Boolean,
             required: false,
@@ -38,10 +36,12 @@ export default {
     },
     methods: {
         closeModalHandler() {
-            if (this.fixed) {
-                return;
-            }
-            this.$emit('close-modal');
+            this.$store.dispatch('closeErrorModal');
+        }
+    },
+    computed: {
+        errorMessage() {
+            return this.$store.getters.getErrorMessage;
         }
     }
 };

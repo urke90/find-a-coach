@@ -1,16 +1,24 @@
 <template>
     <div id="app">
         <the-header></the-header>
+        <base-modal :show="hasErrorMessage"></base-modal>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import TheHeader from './components/layout/TheHeader.vue';
+import BaseModal from './components/base/BaseModal.vue';
 
 export default {
     components: {
-        theHeader: TheHeader
+        TheHeader,
+        BaseModal
+    },
+    computed: {
+        ...mapGetters(['hasErrorMessage'])
     }
 };
 </script>
