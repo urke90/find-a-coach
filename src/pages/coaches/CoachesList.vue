@@ -16,7 +16,7 @@
                 <div v-if="isLoading">
                     <base-spinner></base-spinner>
                 </div>
-                <ul v-else-if="hasCoaches">
+                <ul v-else-if="hasCoaches && !isLoading">
                     <coach-item
                         v-for="coach in filteredCoaches"
                         :key="coach.id"
@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import BaseCard from '../../components/base/BaseCard.vue';
 import CoachItem from '../../components/coaches/CoachItem.vue';
 import CoachFilter from '../../components/coaches/CoachFilter.vue';
@@ -43,7 +45,6 @@ import CoachFilter from '../../components/coaches/CoachFilter.vue';
 export default {
     data() {
         return {
-            isLoading: false,
             filters: {
                 frontend: true,
                 backend: true,
@@ -57,6 +58,7 @@ export default {
         CoachFilter
     },
     computed: {
+        ...mapGetters(['isLoading', 'hasCoaches']),
         filteredCoaches() {
             return this.$store.getters.coaches.filter(coach => {
                 if (this.filters.frontend && coach.areas.includes('frontend'))
@@ -66,9 +68,6 @@ export default {
                 if (this.filters.career && coach.areas.includes('career'))
                     return true;
             });
-        },
-        hasCoaches() {
-            return !this.isLoading && this.$store.getters.hasCoaches;
         }
     },
     methods: {
@@ -76,9 +75,7 @@ export default {
             this.filters = updatedFilters;
         },
         async loadCoaches() {
-            this.isLoading = true;
             await this.$store.dispatch('setCoaches');
-            this.isLoading = false;
         }
     },
     async created() {

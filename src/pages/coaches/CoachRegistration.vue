@@ -1,13 +1,17 @@
 <template>
     <section>
         <base-card>
-            <coach-form @submit-data="registerCoach"></coach-form>
+            <base-spinner v-if="isLoading"></base-spinner>
+            <coach-form
+                v-else-if="!isLoading"
+                @submit-data="registerCoach"
+            ></coach-form>
         </base-card>
     </section>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import CoachForm from '../../components/coaches/CoachForm.vue';
 
 export default {
@@ -15,11 +19,13 @@ export default {
         CoachForm
     },
     methods: {
-        ...mapActions(['addCoach']),
         registerCoach(data) {
-            this.addCoach(data);
+            this.$store.dispatch('addCoach', data);
             this.$router.push('/coaches');
         }
+    },
+    computed: {
+        ...mapGetters(['isLoading'])
     }
 };
 </script>
