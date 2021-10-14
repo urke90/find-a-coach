@@ -19,33 +19,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import RequestItem from '../../components/requests/RequestItem.vue';
 
 export default {
     components: {
         RequestItem
     },
-    data() {
-        return {
-            isLoading: false
-        };
-    },
     computed: {
-        requests() {
-            return this.$store.getters.allRequests;
-        },
-        hasRequests() {
-            return this.$store.getters.hasRequests;
-        }
+        ...mapGetters(['requests', 'hasRequests', 'isLoading'])
     },
     async created() {
-        try {
-            this.isLoading = true;
-            await this.$store.dispatch('setRequests');
-            this.isLoading = false;
-        } catch (err) {
-            console.error(err);
-        }
+        await this.$store.dispatch('setRequests');
     }
 };
 </script>

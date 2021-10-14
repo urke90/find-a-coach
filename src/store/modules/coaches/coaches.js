@@ -1,5 +1,10 @@
 import axios from '../../../api/axios';
-import { ADD_COACH, SET_COACHES } from '../../constants';
+import {
+    ADD_COACH,
+    SET_COACHES,
+    SET_IS_LOADING,
+    SET_ERROR_MESSAGE
+} from '../../constants';
 
 const state = {
     coaches: []
@@ -26,6 +31,7 @@ const mutations = {
 const actions = {
     async addCoach({ commit }, coach) {
         try {
+            commit(SET_IS_LOADING, true);
             const { data } = await axios.post('coaches.json', coach);
             const newCoach = {
                 ...coach,
@@ -33,12 +39,19 @@ const actions = {
             };
 
             commit(ADD_COACH, newCoach);
+            commit(SET_IS_LOADING, false);
         } catch (err) {
-            console.error('error adding new coach', err);
+            const errorMessage = 'Error fetching coaches';
+            commit(SET_ERROR_MESSAGE, errorMessage);
+            commit(SET_IS_LOADING, false);
+            throw new Error(
+                `Error fetching coaches, status code: ${err.response.status}`
+            );
         }
     },
     async setCoaches({ commit }) {
         try {
+            commit(SET_IS_LOADING, true);
             const coaches = [];
             const { data } = await axios.get('coaches.json');
 
@@ -52,8 +65,14 @@ const actions = {
             });
 
             commit(SET_COACHES, coaches);
+            commit(SET_IS_LOADING, false);
         } catch (err) {
-            console.error(err);
+            const errorMessage = 'Error fetching coaches';
+            commit(SET_ERROR_MESSAGE, errorMessage);
+            commit(SET_IS_LOADING, false);
+            throw new Error(
+                `Error fetching coaches, status code: ${err.response.status}`
+            );
         }
     }
 };
